@@ -1,31 +1,30 @@
 import React, { Component } from 'react';
-//import { Form, FormGroup, ControlLabel, FormControl, Button, Col } from 'react-bootstrap'
 import './MailBox.css'
-import TreeFolders from './TreeFolders';
+import { connect } from 'react-redux'
 
 class Read extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            a: 'a'
         }
     }
 
+    componentWillMount() {
+        
+    }
+
     render() {
-        // var { mailContent } = this.props;
-        var mailContent = "- Your event registration has been successful trhgfhghhhhhhhhhhhghfhgfhgfhtrhgfhghhhhhhhhhhhghfhgfhgfasdasfadfsddddddddddddjkjkkjkkkddddddfsddddd dddddddddddddddddddddddddddddddddddddd ddddddddddddddddrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr rrrrrrrrrrrddqwdwqdwdqwdqwdwdqwdqwdwddddddhtrhgfhgh hhhhhhhhhhghfhgfhgfh"
+        var { emails, index } = this.props;
+        var d = new Date();
+        var date = d.getDate();
+        var month = d.getMonth() + 1;
+        var year = d.getFullYear();
+        var hours = d.getHours();
+        var minutes = 0;
+        var min = (0 + minutes)
+        const now = date + "/" + month + "/" + year + " - " + hours + ":" + min
         return (
             <div className="container-fluid mailbox">
-
-                <div className="col-md-2">
-
-                    <a href="/mail" className="btn btn-primary btn-block">Back to Inbox</a>
-
-                    <br />
-
-                    <TreeFolders/>
-                </div>
-                {/* <!-- Sidebar --> */}
 
                 <div className="col-md-10">
 
@@ -47,44 +46,20 @@ class Read extends Component {
                         <div className="mailbox-box-body">
 
                             <div className="mailbox-read-info">
+                                <span className="mailbox-read-info-time pull-right flip">
+                                    {now}
+                                </span>
                                 <h3>
                                     Message Subject Is Placed Here
 					            </h3>
                                 <h5>
                                     From: tje3d@yahoo.com
-					                <span className="mailbox-read-info-time pull-right flip">
-                                        15 Feb. 2015 11:03 PM
-					                </span>
                                 </h5>
                             </div>
                             {/* <!-- Read Info --> */}
 
-                            {/* <div className="mailbox-controls text-center">
-
-                                <div className="btn-group">
-                                    <button className="btn btn-default btn-sm" data-container="body" data-toggle="tooltip" title="Delete" type="button">
-                                        <i className="fa fa-trash-o">
-                                        </i>
-                                    </button>
-                                    <button className="btn btn-default btn-sm" data-container="body" data-toggle="tooltip" title="Reply" type="button">
-                                        <i className="fa fa-reply">
-                                        </i>
-                                    </button>
-                                    <button className="btn btn-default btn-sm" data-container="body" data-toggle="tooltip" title="Forward" type="button">
-                                        <i className="fa fa-share">
-                                        </i>
-                                    </button>
-                                </div>
-                                <button className="btn btn-default btn-sm" data-toggle="tooltip" title="Print" type="button">
-                                    <i className="fa fa-print">
-                                    </i>
-                                </button>
-
-                            </div> */}
-                            {/* <!-- Controls --> */}
-
                             <div className="mailbox-read-message">
-                                {mailContent}
+                                {emails[index - 1]}
                             </div>
                             {/* <!-- Read Message --> */}
 

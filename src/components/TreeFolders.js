@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
+import {connect} from 'react-redux'
 
-export default class TreeFolders extends Component {
+class TreeFolders extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -26,7 +27,7 @@ export default class TreeFolders extends Component {
                             <li className="active"><Link to="/mail">
                                 <i className="fa fa-inbox mr-10"></i>
                                 Inbox
-                                <span className="label label-primary pull-right flip">12</span>
+                                <span className="label label-primary pull-right flip">{this.props.emails.length}</span>
                             </Link></li>
 
                             <li className="active"><Link to="/mail">
@@ -53,6 +54,7 @@ export default class TreeFolders extends Component {
                             <li className="active"><Link to="/mail">
                                 <i className="fa fa-trash mr-10"></i>
                                 Trash
+                                <span className="label label-danger pull-right flip">{this.props.emails.length}</span>
                             </Link></li>
 
                         </ul>
@@ -98,5 +100,19 @@ export default class TreeFolders extends Component {
 
 
         );
+
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        emails: state.emails,
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TreeFolders);
