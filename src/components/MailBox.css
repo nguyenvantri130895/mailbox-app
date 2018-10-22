@@ -21,7 +21,7 @@ body{background:#ecf0f5;padding-top:50px;font-family:'Source Sans Pro', sans-ser
 .mailbox-controls{padding:10px;border-bottom:1px solid #f4f4f4}
 .mailbox-messages>.table{margin-bottom:0;border-bottom:1px solid #f4f4f4}
 .mailbox-messages>.table>tbody>tr:first-child>td{border-top:none;}
-.mailbox-messages>.table>tbody>tr>td{border-top:1px solid #f4f4f4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:450px}
+.mailbox-messages>.table>tbody>tr>td{border-top:1px solid #f4f4f4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:50px}
 .mailbox-messages>.table>tbody>tr>td:first-child{text-align:center;}
 .mailbox-read-info{padding:10px;border-bottom:1px solid #f4f4f4}
 .mailbox-read-info h3{font-size:22px;margin:0;font-weight:bold}

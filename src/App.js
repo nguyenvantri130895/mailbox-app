@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
-import {createBrowserHistory as history} from 'history/createBrowserHistory'
+import createHistory from 'history/createBrowserHistory'
 import routes from './routes'
 import { connect } from 'react-redux'
-import * as actions from './actions/index'
+//import * as actions from './actions/index'
+
+const history = createHistory()
 
 class App extends Component {
   constructor(props) {
@@ -53,9 +55,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    onListMail: () => {
-      dispatch(actions.listEmail())
-    }
   }
 }
 

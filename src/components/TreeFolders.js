@@ -1,15 +1,33 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import * as actions from '../actions'
 
 class TreeFolders extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            labelInbox: '',
+            labelTrash: ''
         }
     }
 
+    componentWillMount() {
+        this.setState({
+            labelInbox: JSON.parse(localStorage.getItem('emails')).length,
+            labelTrash: JSON.parse(localStorage.getItem('trash')).length
+        })
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            labelInbox: JSON.parse(localStorage.getItem('emails')).length,
+            labelTrash: JSON.parse(localStorage.getItem('trash')).length
+        })
+    }
+
     render() {
+        var { labelInbox, labelTrash } = this.state;
         return (
             <div>
                 <div className="mailbox-box mailbox-box-solid">
@@ -27,7 +45,7 @@ class TreeFolders extends Component {
                             <li className="active"><Link to="/mail">
                                 <i className="fa fa-inbox mr-10"></i>
                                 Inbox
-                                <span className="label label-primary pull-right flip">{this.props.emails.length}</span>
+                                <span className="label label-primary pull-right flip">{labelInbox ? labelInbox : ''}</span>
                             </Link></li>
 
                             <li className="active"><Link to="/mail">
@@ -36,14 +54,14 @@ class TreeFolders extends Component {
                             </Link></li>
 
                             <li className="active"><Link to="/mail">
-                                <i className="fa fa-envelope-o mr-10"></i>
+                                <i className="fa fa-envelope-open-text mr-10"></i>
                                 Sent
                             </Link></li>
 
                             <li className="active"><Link to="/mail">
-                                <i className="fa fa-file-text-o mr-10"></i>
+                                <i className="fa fa-clipboard-list mr-10"></i>
                                 Drafts
-                                <span className="label label-warning pull-right flip">45</span>
+                                <span className="label label-warning pull-right flip"></span>
                             </Link></li>
 
                             <li className="active"><Link to="/mail">
@@ -51,10 +69,10 @@ class TreeFolders extends Component {
                                 Junk
                             </Link></li>
 
-                            <li className="active"><Link to="/mail">
+                            <li className="active"><Link to="/mail/trash">
                                 <i className="fa fa-trash mr-10"></i>
                                 Trash
-                                <span className="label label-danger pull-right flip">{this.props.emails.length}</span>
+                                <span className="label label-danger pull-right flip">{labelTrash ? labelTrash : ''}</span>
                             </Link></li>
 
                         </ul>
@@ -86,7 +104,7 @@ class TreeFolders extends Component {
                             </Link></li>
 
                             <li className="active"><Link to="/mail">
-                                <i className="fa fa-facebook mr-10"></i>
+                                <i className="fa fa-user-friends mr-10"></i>
                                 Social
                             </Link></li>
 
@@ -107,11 +125,15 @@ class TreeFolders extends Component {
 const mapStateToProps = (state) => {
     return {
         emails: state.emails,
+        trash: state.trash
     }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
+        onShowListMail: () => {
+            dispatch(actions.showListEmail())
+        }
     }
 }
 

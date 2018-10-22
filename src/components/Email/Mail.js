@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-//import { Form, FormGroup, ControlLabel, FormControl, Button, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import '../MailBox.css'
+//import '../MailBox.css'
 import TreeFolders from '../TreeFolders';
 import MailList from './MailList';
 import Read from '../Read'
-import Trash from '../Trash'
+import TrashList from '../Trash/TrashList'
 import { connect } from 'react-redux'
 
 class Mail extends Component {
@@ -16,23 +15,23 @@ class Mail extends Component {
     }
 
     render() {
-        var { emails, index } = this.props;
+        var { emails, id, trash, index } = this.props;
         const ComponentRendered = () => {
             switch (window.location.pathname) {
-                // case '/mail' || '/mail/':
-                //     return <MailList/>
-                case `/mail/${index}/read` || `/mail/${index}/read/`:
-                    return <Read emails={emails} index={index} />
+                case `/mail` || `/mail/`:
+                    return <MailList />
+                case `/mail/${id}/read` || `/mail/${id}/read/`:
+                    return <Read emails={emails} trash={trash} id={id} index={index} />
                 case `/mail/trash` || `/mail/trash/`:
-                    return <Trash />
-                default: return <MailList />
+                    return <TrashList/>
+                default: return ''
             }
 
         }
 
         return (
             <div className="container-fluid mailbox">
-                <div style={{ float: 'right', marginRight: '20px' }} >admin</div>
+                <div style={{ float: 'right', marginRight: '20px' }} ></div>
 
                 <div className="col-md-2">
 
@@ -53,6 +52,8 @@ class Mail extends Component {
 const mapStateToProps = (state) => {
     return {
         emails: state.emails,
+        trash: state.trash,
+        id: state.id,
         index: state.index
     }
 }

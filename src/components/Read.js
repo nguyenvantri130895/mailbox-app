@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './MailBox.css'
-import { connect } from 'react-redux'
 
 class Read extends Component {
     constructor(props) {
@@ -10,18 +9,35 @@ class Read extends Component {
     }
 
     componentWillMount() {
-        
+
     }
 
     render() {
-        var { emails, index } = this.props;
+        var { emails, id, index, trash } = this.props;
+
+        // Check emailId to display emailContent (in inbox or trash)
+        const mailContent = () => {
+            if (emails[index]) {
+                if (emails[index].id !== id) {
+                    return trash[index].content
+                }
+                else
+                    return emails[index].content
+            }
+            else {
+                if (trash[index].id === id) {
+                    return trash[index].content
+                }
+            }
+
+        }
         var d = new Date();
         var date = d.getDate();
         var month = d.getMonth() + 1;
         var year = d.getFullYear();
         var hours = d.getHours();
-        var minutes = 0;
-        var min = (0 + minutes)
+        var min = d.getMinutes();
+        min = (min < 10) ? ('0' + min) : min
         const now = date + "/" + month + "/" + year + " - " + hours + ":" + min
         return (
             <div className="container-fluid mailbox">
@@ -31,24 +47,17 @@ class Read extends Component {
                     <div className="mailbox-box mailbox-box-primary">
 
                         <div className="mailbox-box-header">
+                            <span className="mailbox-read-info-time pull-right flip">
+                                {now}
+                            </span>
 
                             <h3 className="mailbox-box-title">Read Mail</h3>
-
-                            <div className="mailbox-box-tools pull-right flip">
-
-                                <a href="/mail/read" className="btn btn-sm"><i className="fa fa-chevron-left"></i></a>
-                                <a href="/mail/read" className="btn btn-sm"><i className="fa fa-chevron-right"></i></a>
-
-                            </div>
 
                         </div>
 
                         <div className="mailbox-box-body">
 
                             <div className="mailbox-read-info">
-                                <span className="mailbox-read-info-time pull-right flip">
-                                    {now}
-                                </span>
                                 <h3>
                                     Message Subject Is Placed Here
 					            </h3>
@@ -59,7 +68,7 @@ class Read extends Component {
                             {/* <!-- Read Info --> */}
 
                             <div className="mailbox-read-message">
-                                {emails[index - 1]}
+                                {mailContent()}
                             </div>
                             {/* <!-- Read Message --> */}
 
@@ -79,7 +88,7 @@ class Read extends Component {
                                         <span className="mailbox-attachment-size">
                                             1,245 KB
 					                <a className="btn btn-default btn-xs pull-right flip" href="/mail/read">
-                                                <i className="fa fa-cloud-download">
+                                                <i className="fa fa-cloud-download-alt">
                                                 </i>
                                             </a>
                                         </span>
@@ -99,7 +108,7 @@ class Read extends Component {
                                         <span className="mailbox-attachment-size">
                                             1,245 KB
 					                <a className="btn btn-default btn-xs pull-right flip" href="/mail/read">
-                                                <i className="fa fa-cloud-download">
+                                                <i className="fa fa-cloud-download-alt">
                                                 </i>
                                             </a>
                                         </span>
@@ -119,7 +128,7 @@ class Read extends Component {
                                         <span className="mailbox-attachment-size">
                                             1.9 MB
 					                        <a className="btn btn-default btn-xs pull-right flip" href="/mail/read">
-                                                <i className="fa fa-cloud-download">
+                                                <i className="fa fa-cloud-download-alt">
                                                 </i>
                                             </a>
                                         </span>
@@ -135,7 +144,7 @@ class Read extends Component {
                             <div className="pull-right flip">
                                 <button className="btn btn-default" type="button">
                                     Forward
-                                    <i className="fa fa-share ml-10">
+                                    <i className="far fa-hand-point-right ml-10">
                                     </i>
                                 </button>
                             </div>

@@ -1,12 +1,27 @@
 import React, { Component } from 'react';
-//import { Form, FormGroup, ControlLabel, FormControl, Button, Col } from 'react-bootstrap'
-import './MailBox.css'
+import { connect } from 'react-redux'
+import * as actions from '../actions'
 
-export default class Compose extends Component {
+class Compose extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            content: '',
+            composer: ''
         }
+    }
+
+    onClick = () => {
+        this.props.onSend(this.state.composer, this.state.content)
+    }
+
+    onChangeText = (event) => {
+        var target = event.target;
+        var name = target.name;
+        var value = target.value;
+        this.setState({
+            [name]: value
+        })
     }
 
     render() {
@@ -36,7 +51,13 @@ export default class Compose extends Component {
 
                             <form className="mailbox-compose">
                                 <div className="form-group">
-                                    <input className="form-control" type="text" placeholder="To:" />
+                                    <input 
+                                        className="form-control" 
+                                        type="text" 
+                                        placeholder="From:" 
+                                        name="composer"
+                                        onChange={this.onChangeText}
+                                    />
                                 </div>
 
                                 <div className="form-group">
@@ -49,50 +70,61 @@ export default class Compose extends Component {
                                         <ul className="wysihtml5-toolbar">
                                             <li>
                                                 <div className="btn-group">
-                                                    <a className="btn btn-default" data-wysihtml5-command="bold" href="/mail/compose" tabIndex="-1" title="CTRL+B" unselectable="on">
+                                                    <button className="btn btn-default" data-wysihtml5-command="bold" tabIndex="-1" title="CTRL+B" unselectable="on">
                                                         <b>Bold</b>
-                                                    </a>
-                                                    <a className="btn btn-default" data-wysihtml5-command="italic" href="/mail/compose" tabIndex="-1" title="CTRL+I" unselectable="on">
+                                                    </button>
+                                                    <button className="btn btn-default" data-wysihtml5-command="italic" tabIndex="-1" title="CTRL+I" unselectable="on">
                                                         <i>Italic</i>
-                                                    </a>
-                                                    <a className="btn btn-default wysihtml5-command-active" data-wysihtml5-command="underline" href="/mail/compose" tabIndex="-1" title="CTRL+U" unselectable="on">
+                                                    </button>
+                                                    <button className="btn btn-default wysihtml5-command-active" data-wysihtml5-command="underline" tabIndex="-1" title="CTRL+U" unselectable="on">
                                                         <u>Underline</u>
-                                                    </a>
-                                                    <a className="btn btn-default" data-wysihtml5-command="small" href="/mail/compose" tabIndex="-1" title="CTRL+S" unselectable="on">
+                                                    </button>
+                                                    <button className="btn btn-default" data-wysihtml5-command="small" tabIndex="-1" title="CTRL+S" unselectable="on">
                                                         <small>Small</small>
-                                                    </a>
+                                                    </button>
                                                 </div>
                                             </li>
                                             <li>
-                                                <a className="btn btn-default" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="blockquote" data-wysihtml5-display-format-name="false" href="/mail/compose" tabIndex="-1" unselectable="on">
+                                                <button className="btn btn-default" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="blockquote" data-wysihtml5-display-format-name="false" tabIndex="-1" unselectable="on">
                                                     <span className="fa fa-quote-left">
                                                     </span>  <span className="fa fa-quote-right">
                                                     </span>
-                                                </a>
+                                                </button>
                                             </li>
                                             <li>
                                                 <div className="btn-group">
-                                                    <a className="btn btn-default" data-wysihtml5-command="insertUnorderedList" href="/mail/compose" tabIndex="-1" title="Unordered list" unselectable="on">
+                                                    <button className="btn btn-default" data-wysihtml5-command="insertUnorderedList" tabIndex="-1" title="Unordered list" unselectable="on">
                                                         <span className="glyphicon glyphicon-list">
                                                         </span>
-                                                    </a>
-                                                    <a className="btn btn-default" data-wysihtml5-command="insertOrderedList" href="/mail/compose" tabIndex="-1" title="Ordered list" unselectable="on">
+                                                    </button>
+                                                    <button className="btn btn-default" data-wysihtml5-command="insertOrderedList" tabIndex="-1" title="Ordered list" unselectable="on">
                                                         <span className="glyphicon glyphicon-th-list">
                                                         </span>
-                                                    </a>
-                                                    <a className="btn btn-default" data-wysihtml5-command="Outdent" href="/mail/compose" tabIndex="-1" title="Outdent" unselectable="on">
+                                                    </button>
+                                                    <button className="btn btn-default" data-wysihtml5-command="Outdent" tabIndex="-1" title="Outdent" unselectable="on">
                                                         <span className="glyphicon glyphicon-indent-right">
                                                         </span>
-                                                    </a>
-                                                    <a className="btn btn-default" data-wysihtml5-command="Indent" href="/mail/compose" tabIndex="-1" title="Indent" unselectable="on">
+                                                    </button>
+                                                    <button className="btn btn-default" data-wysihtml5-command="Indent" tabIndex="-1" title="Indent" unselectable="on">
                                                         <span className="glyphicon glyphicon-indent-left">
                                                         </span>
-                                                    </a>
+                                                    </button>
                                                 </div>
                                             </li>
                                         </ul>
                                     </div>
-                                    <textarea className="same-form-control" style={{ height: '300px', width: '100%', maxWidth: '100%', fontSize: '14px' }} />
+                                    <textarea
+                                        type="text"
+                                        className="same-form-control"
+                                        style={{
+                                            height: '300px',
+                                            width: '100%',
+                                            maxWidth: '100%',
+                                            fontSize: '14px'
+                                        }}
+                                        name="content"
+                                        onChange={this.onChangeText}
+                                    />
 
                                 </div>
 
@@ -115,10 +147,10 @@ export default class Compose extends Component {
                         <div className="mailbox-box-footer">
                             <div className="pull-right">
                                 <button className="btn btn-info mr-10">
-                                    <i className="fa fa-file-text-o mr-10"></i>
+                                    <i className="fa fa-clipboard-list mr-10"></i>
                                     Draft
                                 </button>
-                                <button className="btn btn-success">
+                                <button className="btn btn-success" onClick={this.onClick}>
                                     Send
                                     <i className="fa fa-chevron-circle-right ml-10"></i>
                                 </button>
@@ -140,3 +172,19 @@ export default class Compose extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        emails: state.emails
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onSend: (sender, text) => {
+            dispatch(actions.sendEmail(sender, text))
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Compose);

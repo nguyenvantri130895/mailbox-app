@@ -4,8 +4,7 @@ import '../MailBox.css'
 import { connect } from 'react-redux'
 import * as actions from '../../actions'
 
-
-class MailItem extends Component {
+class TrashItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -13,37 +12,50 @@ class MailItem extends Component {
     }
 
     onClick = () => {
-        this.props.onGetId(this.props.email.id);
+        this.props.onGetId(this.props.emailTrash.id);
         this.props.onGetIndex(this.props.index);
     }
 
     onDelete = () => {
-        this.props.onMoveToTrash(this.props.index)
+        this.props.onDelete(this.props.index);
+    }
+
+    onReturn = () => {
+        this.props.onMoveToInbox(this.props.index);
     }
 
     render() {
-        var { email, index } = this.props;
+        var { emailTrash, index } = this.props;
         return (
             <div className="table-responsive mailbox-messages">
                 <table className="table table-hover table-striped">
                     <tbody>
                         <tr>
-                            <td className="mailbox-name col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                {email.composer} {index + 1}
+                            <td className="mailbox-name">
+                                Noname {index + 1}
                             </td>
-                            <td className="mailbox-subject col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                <Link
-                                    to={`/mail/${email.id}/read`}
-                                    style={{ color: '#000' }}
+                            <td className="mailbox-subject">
+                                <Link 
+                                    to={`/mail/${emailTrash.id}/read`} 
+                                    style={{ color: '#000' }} 
                                     onClick={this.onClick}
                                 >
-                                    {email.content}
+                                    {emailTrash.content}
                                 </Link>
                             </td>
-                            <td className="mailbox-date col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                                {email.time} mins ago
+                            <td className="mailbox-attachment">
+                            </td>
+                            <td className="mailbox-date">
+                                {emailTrash.time} mins ago
 					        </td>
                             <td>
+                                <button
+                                    className="btn btn-info btn-sm mr-10"
+                                    type="button"
+                                    onClick={this.onReturn}
+                                >
+                                    <i className="fa fa-undo"></i>
+                                </button>
                                 <button
                                     className="btn btn-danger btn-sm"
                                     type="button"
@@ -62,6 +74,7 @@ class MailItem extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        trash: state.trash
     }
 }
 
@@ -73,10 +86,13 @@ const mapDispatchToProps = (dispatch, props) => {
         onGetIndex: (index) => {
             dispatch(actions.getIndex(index))
         },
-        onMoveToTrash: (index) => {
-            dispatch(actions.moveToTrash(index))
+        onMoveToInbox: (index) => {
+            dispatch(actions.moveToInbox(index))
+        },
+        onDelete: (index) => {
+            dispatch(actions.deletePermanently(index))
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MailItem)
+export default connect(mapStateToProps, mapDispatchToProps)(TrashItem)

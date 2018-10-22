@@ -3,146 +3,82 @@ import React, { Component } from 'react';
 import '../MailBox.css'
 import MailItem from './MailItem';
 import { connect } from 'react-redux'
+import MailControl from './MailControl';
+import * as actions from '../../actions'
 
 class MailList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            //selectAll: false,
-            //iconSelectAll: false,
-            //selectedEmails: new Set(),
-            //check: false,
         }
     }
 
+    componentWillMount = () => {
+        this.props.onShowList()
+    }
 
     render() {
-        var { emails } = this.props;
-        //var { iconSelectAll } = this.state;
+        var { emails, sort, keyword } = this.props;
+
+        if (sort.by === 'name') {
+            emails.sort((a, b) => {
+                if (a.composer.toLowerCase() > b.composer.toLowerCase()) return sort.value;
+                else if (a.composer.toLowerCase() < b.composer.toLowerCase()) return -sort.value;
+                else return 0;
+            })
+        } 
+        else {
+            emails.sort((a, b) => {
+                if (a.time > b.time) return sort.value;
+                else if (a.time < b.time) return -sort.value;
+                else return 0;
+            })
+        }
+
+        emails = emails.filter((email) => {
+            return email.content.toLowerCase().indexOf(keyword) !== -1
+        })
         var renderItem = emails.map((email, index) => {
             return (
                 <MailItem
                     email={email}
-                    key={index}
+                    key={email.id}
                     index={index}
                 />
             )
         })
-        return (
 
-            <div className="col-md-10">
-
-                <div className="mailbox-box mailbox-box-primary">
-
-                    <div className="mailbox-box-header">
-
-                        <h3 className="mailbox-box-title">Inbox</h3>
-
-                        <div className="mailbox-box-tools pull-right flip">
-
-                            <form className="form form-horizontal search-form">
-                                <input type="text" className="form-control" placeholder="Search for..." />
-                                <i className="fa fa-search fa-btn"></i>
-                            </form>
-
+        var renderList = () => {
+            return ( emails.length ? 
+                <div className="col-md-10">
+                    <div className="mailbox-box mailbox-box-primary">
+                        <MailControl/>
+                        <div className="mailbox-box-body">
+                            {renderItem}
                         </div>
-
                     </div>
-
-                    <div className="mailbox-box-body">
-
-                        {/* <div className="mailbox-controls">
-                            <button className="btn btn-default btn-sm" type="button">
-                                <i className={iconSelectAll ? 'fa fa-check-square-o' : 'fa fa-square-o'}>
-                                </i>
-                            </button>
-                            <div className="btn-group">
-                                <button className="btn btn-default btn-sm" type="button">
-                                    <i className="fa fa-trash-o">
-                                    </i>
-                                </button>
-                                <button className="btn btn-default btn-sm" type="button">
-                                    <i className="fa fa-reply">
-                                    </i>
-                                </button>
-                                <button className="btn btn-default btn-sm" type="button">
-                                    <i className="fa fa-share">
-                                    </i>
-                                </button>
-                            </div>
-                            <button className="btn btn-default btn-sm" type="button">
-                                <i className="fa fa-refresh">
-                                </i>
-                            </button>
-                            <div className="pull-right flip">
-                                1-9/200
-					            <div className="btn-group">
-                                    <button className="btn btn-default btn-sm" type="button">
-                                        <i className="fa fa-chevron-left">
-                                        </i>
-                                    </button>
-                                    <button className="btn btn-default btn-sm" type="button">
-                                        <i className="fa fa-chevron-right">
-                                        </i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div> */}
-
-                        {renderItem}
-
-                        {/* <div className="mailbox-controls">
-                            <button className="btn btn-default btn-sm" type="button">
-                                <i className="fa fa-square-o">
-                                </i>
-                            </button>
-                            <div className="btn-group">
-                                <button className="btn btn-default btn-sm" type="button">
-                                    <i className="fa fa-trash-o">
-                                    </i>
-                                </button>
-                                <button className="btn btn-default btn-sm" type="button">
-                                    <i className="fa fa-reply">
-                                    </i>
-                                </button>
-                                <button className="btn btn-default btn-sm" type="button">
-                                    <i className="fa fa-share">
-                                    </i>
-                                </button>
-                            </div>
-                            <button className="btn btn-default btn-sm" type="button">
-                                <i className="fa fa-refresh">
-                                </i>
-                            </button>
-                            <div className="pull-right flip">
-                                1-9/200
-					            <div className="btn-group">
-                                    <button className="btn btn-default btn-sm" type="button">
-                                        <i className="fa fa-chevron-left">
-                                        </i>
-                                    </button>
-                                    <button className="btn btn-default btn-sm" type="button">
-                                        <i className="fa fa-chevron-right">
-                                        </i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div> */}
-                    </div>
-                </div>
-            </div>
+                </div> 
+                : <h4 className="text-center">No email to display in inbox</h4>
+            )}
+        return (
+            renderList()
         );
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        emails: state.emails
+        emails: state.emails,
+        sort: state.sort,
+        keyword: state.search
     }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
+        onShowList: () => {
+            dispatch(actions.showListEmail())
+        }
     }
 }
 
