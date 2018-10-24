@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, FormControl, Button, Col, Checkbox } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import '../App.css'
+//import '../App.css'
 
 export default class RegisterForm extends Component {
     constructor(props) {

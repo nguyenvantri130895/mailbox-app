@@ -28,7 +28,7 @@ label{
   margin-left: 10px;
 }
 
-a button{
+.button-home a button{
   border: 2px solid rgb(0, 195, 255);
   background-color: whitesmoke;
   height: 40px;
@@ -37,7 +37,7 @@ a button{
   box-shadow: 5px 5px rgb(0, 195, 255);
 }
 
-a button:hover{
+.button-home a button:hover{
   border: 2px solid rgb(0, 195, 255);
   background-color: whitesmoke;
   color: rgb(51, 51, 212);
@@ -45,7 +45,7 @@ a button:hover{
   transform: translate(5px, 5px);
 }
 
-a button:hover ::after{
+.button-home a button:hover ::after{
   content: '\f101';
   font-family: FontAwesome;
   margin: 0px 0px 0px 10px;
@@ -75,4 +75,8 @@ a button:hover ::after{
 
 .pr-5{
   padding-right: 5px;
+}
+
+.pb-30{
+  padding-bottom: 20px;
 }

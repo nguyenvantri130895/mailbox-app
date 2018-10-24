@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom'
 import '../App.css'
 
 export default class LoginForm extends Component {
@@ -10,16 +11,16 @@ export default class LoginForm extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="container button-home">
                 <h1 className="text-center">
                     Welcome to home page
                 </h1>
-                <a href="/login">
+                <Link to="/login">
                     <button>
                         Login
                         <span></span>
                     </button>
-                </a>
+                </Link>
             </div>
         );
     }

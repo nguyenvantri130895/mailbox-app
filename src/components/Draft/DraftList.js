@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import TrashItem from './TrashItem';
+import DraftItem from './DraftItem';
 import { connect } from 'react-redux'
 import * as actions from '../../actions'
 import Pagination from 'react-js-pagination'
 
-class TrashList extends Component {
+class DraftList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -24,32 +24,32 @@ class TrashList extends Component {
     }
 
     render() {
-        var { trash } = this.props;
+        var { drafts } = this.props;
         var { activePage, itemsCountPerPage } = this.state;
 
-        const indexOfLastEmailTrash = itemsCountPerPage * activePage;
-        const indexOfFirstEmailTrash = indexOfLastEmailTrash - itemsCountPerPage;
-        const trashEmailsPerPage = trash.slice(indexOfFirstEmailTrash, indexOfLastEmailTrash);
+        const indexOfLastDraft = itemsCountPerPage * activePage;
+        const indexOfFirstDraft = indexOfLastDraft - itemsCountPerPage;
+        const currentDrafts = drafts.slice(indexOfFirstDraft, indexOfLastDraft);
 
-        var renderItem = trashEmailsPerPage.map((emailTrash, index) => {
+        var renderItem = currentDrafts.map((draft, index) => {
             return (
-                <TrashItem
-                    emailTrash={emailTrash}
-                    key={emailTrash.id}
+                <DraftItem
+                    draft={draft}
+                    key={draft.id}
                     index={index + itemsCountPerPage * (activePage - 1)}
                 />
             )
         })
 
         var renderList = () => {
-            return (trash.length ?
+            return (drafts.length ?
                 <div className="col-md-10">
 
                     <div className="mailbox-box mailbox-box-primary">
 
                         <div className="mailbox-box-header">
 
-                            <h3 className="mailbox-box-title">Trash</h3>
+                            <h3 className="mailbox-box-title">Draft</h3>
 
                         </div>
 
@@ -62,7 +62,7 @@ class TrashList extends Component {
                             <Pagination
                                 activePage={activePage}
                                 itemsCountPerPage={itemsCountPerPage}
-                                totalItemsCount={trash.length}
+                                totalItemsCount={drafts.length}
                                 pageRangeDisplayed={3}
                                 onChange={this.onChangePage}
                                 prevPageText="Previous"
@@ -85,16 +85,16 @@ class TrashList extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        trash: state.trash,
+        drafts: state.drafts,
     }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
         onShowList: () => {
-            dispatch(actions.showListTrash())
+            dispatch(actions.showListDraft())
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TrashList);
+export default connect(mapStateToProps, mapDispatchToProps)(DraftList);

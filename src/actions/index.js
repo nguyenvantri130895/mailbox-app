@@ -12,6 +12,12 @@ export const showListTrash = () => {
     }
 }
 
+export const showListDraft = () => {
+    return {
+        type: types.SHOW_LIST_DRAFT
+    }
+}
+
 export const getId = (id) => {
     return {
         type: types.GET_ID,
@@ -61,10 +67,45 @@ export const searchEmail = (keyword) => {
     }
 }
 
-export const sendEmail = (sender, text) => {
+export const sendEmail = (sender, text, subject) => {
     return {
         type: types.SEND_EMAIL,
         sender,
-        text
+        text,
+        subject
+    }
+}
+
+export const saveToDraft = (text, subject) => {
+    return {
+        type: types.SAVE_TO_DRAFT,
+        text,
+        subject
+    }
+}
+
+export const deleteDraft = (index) => {
+    return {
+        type: types.DELETE_DRAFT,
+        index
+    }
+}
+
+export const readInbox = (id) => {
+    return {
+        type: types.READ_INBOX,
+        id
+    }
+}
+
+export const readTrash = () => {
+    return {
+        type: types.READ_TRASH,
+    }
+}
+
+export const readDraft = () => {
+    return {
+        type: types.READ_DRAFT,
     }
 }

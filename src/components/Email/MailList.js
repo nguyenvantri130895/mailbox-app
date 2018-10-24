@@ -5,11 +5,14 @@ import MailItem from './MailItem';
 import { connect } from 'react-redux'
 import MailControl from './MailControl';
 import * as actions from '../../actions'
+import Pagination from 'react-js-pagination'
 
 class MailList extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            activePage: 1,
+            itemsCountPerPage: 5
         }
     }
 
@@ -17,16 +20,22 @@ class MailList extends Component {
         this.props.onShowList()
     }
 
+    onChangePage = (pageNumber) => {
+        this.setState({
+            activePage: pageNumber
+        })
+    }
+
     render() {
         var { emails, sort, keyword } = this.props;
-
+        var { activePage, itemsCountPerPage } = this.state;
         if (sort.by === 'name') {
             emails.sort((a, b) => {
-                if (a.composer.toLowerCase() > b.composer.toLowerCase()) return sort.value;
-                else if (a.composer.toLowerCase() < b.composer.toLowerCase()) return -sort.value;
+                if (a.id.toLowerCase() > b.id.toLowerCase()) return sort.value;
+                else if (a.id.toLowerCase() < b.id.toLowerCase()) return -sort.value;
                 else return 0;
             })
-        } 
+        }
         else {
             emails.sort((a, b) => {
                 if (a.time > b.time) return sort.value;
@@ -38,7 +47,11 @@ class MailList extends Component {
         emails = emails.filter((email) => {
             return email.content.toLowerCase().indexOf(keyword) !== -1
         })
-        var renderItem = emails.map((email, index) => {
+        const indexOfLastEmail = itemsCountPerPage * activePage;
+        const indexOfFirstEmail = indexOfLastEmail - itemsCountPerPage;
+        const currentEmails = emails.slice(indexOfFirstEmail, indexOfLastEmail);
+
+        var renderItem = currentEmails.map((email, index) => {
             return (
                 <MailItem
                     email={email}
@@ -49,19 +62,36 @@ class MailList extends Component {
         })
 
         var renderList = () => {
-            return ( emails.length ? 
-                <div className="col-md-10">
-                    <div className="mailbox-box mailbox-box-primary">
-                        <MailControl/>
-                        <div className="mailbox-box-body">
-                            {renderItem}
-                        </div>
-                    </div>
-                </div> 
-                : <h4 className="text-center">No email to display in inbox</h4>
-            )}
+            return (emails.length ?
+                <div className="mailbox-box-body">
+                    {renderItem}
+
+                </div>
+                : <h4 className="text-center pb-30">No email to display in inbox</h4>
+            )
+        }
         return (
-            renderList()
+            <div className="col-md-10">
+                <div className="mailbox-box mailbox-box-primary">
+                    <MailControl />
+                    <div className="mailbox-box-body">
+                        {renderList()}
+                    </div>
+                    <div className="pull-right">
+                        <Pagination
+                            activePage={activePage}
+                            itemsCountPerPage={itemsCountPerPage}
+                            totalItemsCount={emails.length}
+                            pageRangeDisplayed={3}
+                            onChange={this.onChangePage}
+                            prevPageText="Previous"
+                            lastPageText="Last"
+                            firstPageText="First"
+                            nextPageText="Next"
+                        />
+                    </div>
+                </div>
+            </div>
         );
     }
 }

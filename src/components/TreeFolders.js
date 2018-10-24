@@ -58,10 +58,10 @@ class TreeFolders extends Component {
                                 Sent
                             </Link></li>
 
-                            <li className="active"><Link to="/mail">
+                            <li className="active"><Link to="/mail/draft">
                                 <i className="fa fa-clipboard-list mr-10"></i>
                                 Drafts
-                                <span className="label label-warning pull-right flip"></span>
+                                <span className="label label-warning pull-right flip">{this.props.drafts.length ? this.props.drafts.length : ''}</span>
                             </Link></li>
 
                             <li className="active"><Link to="/mail">
@@ -125,7 +125,8 @@ class TreeFolders extends Component {
 const mapStateToProps = (state) => {
     return {
         emails: state.emails,
-        trash: state.trash
+        trash: state.trash,
+        drafts: state.drafts
     }
 }
 

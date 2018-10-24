@@ -14,6 +14,7 @@ class TrashItem extends Component {
     onClick = () => {
         this.props.onGetId(this.props.emailTrash.id);
         this.props.onGetIndex(this.props.index);
+        console.log(this.props.index);
     }
 
     onDelete = () => {
@@ -25,30 +26,28 @@ class TrashItem extends Component {
     }
 
     render() {
-        var { emailTrash, index } = this.props;
+        var { emailTrash } = this.props;
         return (
-            <div className="table-responsive mailbox-messages">
+            <div className="table-responsive trash-messages">
                 <table className="table table-hover table-striped">
                     <tbody>
                         <tr>
-                            <td className="mailbox-name">
-                                Noname {index + 1}
+                            <td className="mailbox-name col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                {emailTrash.composer}
                             </td>
-                            <td className="mailbox-subject">
-                                <Link 
-                                    to={`/mail/${emailTrash.id}/read`} 
-                                    style={{ color: '#000' }} 
+                            <td className="mailbox-subject col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                <Link
+                                    to={`/mail/${emailTrash.id}/read`}
+                                    style={{ color: '#000' }}
                                     onClick={this.onClick}
                                 >
-                                    {emailTrash.content}
+                                    {emailTrash.subject} - {emailTrash.content}
                                 </Link>
                             </td>
-                            <td className="mailbox-attachment">
-                            </td>
-                            <td className="mailbox-date">
+                            <td className="mailbox-date col-lg-1 col-md-1 col-sm-1 col-xs-1">
                                 {emailTrash.time} mins ago
 					        </td>
-                            <td>
+                            <td className="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                                 <button
                                     className="btn btn-info btn-sm mr-10"
                                     type="button"

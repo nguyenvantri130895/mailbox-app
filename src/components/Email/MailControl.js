@@ -85,7 +85,7 @@ class MailControl extends Component {
                         </li>
                     </ul>
                 </div>
-                <div className="col-xs-5 col-sm-5 col-md-5 col-lg-5 pull-right mr-10">
+                <div className="col-xs-5 col-sm-5 col-md-5 col-lg-5 pull-right mr-10" style={{maxWidth: '400px'}} >
                     <div className="input-group">
                         <input
                             type="text"

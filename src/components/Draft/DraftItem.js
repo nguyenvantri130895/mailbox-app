@@ -4,46 +4,45 @@ import '../MailBox.css'
 import { connect } from 'react-redux'
 import * as actions from '../../actions'
 
-
-class MailItem extends Component {
+class DraftItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
         }
     }
 
-    onRead = () => {
-        this.props.onRead(this.props.email.id);
-        //this.props.onGetId(this.props.email.id);
+    onClick = () => {
+        this.props.onGetId(this.props.draft.id);
+        this.props.onGetIndex(this.props.index);
     }
 
     onDelete = () => {
-        this.props.onMoveToTrash(this.props.index)
+        this.props.onDelete(this.props.index);
     }
 
     render() {
-        var { email } = this.props;
+        var { draft } = this.props;
         return (
-            <div className="table-responsive mailbox-messages">
+            <div className="table-responsive draft-messages">
                 <table className="table table-hover table-striped">
                     <tbody>
                         <tr>
-                            <td className="mailbox-name col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                {email.composer}
+                            <td className="mailbox-name col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                {draft.composer}
                             </td>
-                            <td className="mailbox-subject col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                            <td className="mailbox-subject col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                 <Link
-                                    to={`/mail/${email.id}/read`}
+                                    to={`/mail/${draft.id}/read`}
                                     style={{ color: '#000' }}
-                                    onClick={this.onRead}
+                                    onClick={this.onClick}
                                 >
-                                    {email.subject} - {email.content}
+                                    {draft.subject} - {draft.content}
                                 </Link>
                             </td>
                             <td className="mailbox-date col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                                {email.time} mins ago
+                                {draft.time} mins ago
 					        </td>
-                            <td>
+                            <td className="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                                 <button
                                     className="btn btn-danger btn-sm"
                                     type="button"
@@ -62,18 +61,22 @@ class MailItem extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        drafts: state.drafts
     }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        onRead: (id) => {
-            dispatch(actions.readInbox(id))
+        onGetId: (id) => {
+            dispatch(actions.getId(id))
         },
-        onMoveToTrash: (index) => {
-            dispatch(actions.moveToTrash(index))
+        onGetIndex: (index) => {
+            dispatch(actions.getIndex(index))
+        },
+        onDelete: (index) => {
+            dispatch(actions.deleteDraft(index))
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MailItem)
+export default connect(mapStateToProps, mapDispatchToProps)(DraftItem)
