@@ -36,7 +36,7 @@ class TrashList extends Component {
                 <TrashItem
                     emailTrash={emailTrash}
                     key={emailTrash.id}
-                    index={index + itemsCountPerPage * (activePage - 1)}
+                    index={index}
                 />
             )
         })

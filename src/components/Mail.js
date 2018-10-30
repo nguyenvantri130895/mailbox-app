@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import TreeFolders from './TreeFolders';
-import MailList from './Email/MailList';
+import InboxList from './Inbox/InboxList';
 import Read from './Read/Read'
 import TrashList from './Trash/TrashList'
 import { connect } from 'react-redux'
 import DraftList from './Draft/DraftList';
+import SentList from './Sent/SentList';
 
 class Mail extends Component {
     constructor(props) {
@@ -14,22 +15,27 @@ class Mail extends Component {
         }
     }
 
+    componentDidMount(){
+        // window.location.pathname ='/mail'
+    }
+
     render() {
         var readMessage = JSON.parse(localStorage.getItem('readMessage')) ? JSON.parse(localStorage.getItem('readMessage')) : '';
         var id = readMessage.id;
         const ComponentRendered = () => {
             switch (window.location.pathname) {
                 case `/mail`:
-                    return <MailList />
+                    return <InboxList />
                 case `/mail/${id}/read`:
-                    return <Read 
-                                id={id} 
-                                readMessage={readMessage}
-                            />
+                    return <Read
+                        readMessage={readMessage}
+                    />
                 case `/mail/trash`:
                     return <TrashList />
                 case `/mail/draft`:
                     return <DraftList />
+                case `/mail/sent`:
+                    return <SentList />
                 default: return ''
             }
 
@@ -57,17 +63,13 @@ class Mail extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        emails: state.emails,
-        trash: state.trash,
-        drafts: state.drafts,
-        id: state.id,
-        index: state.index,
-        readMessage: state.readMessage
+        readMessage: state.readMessage,
     }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
+
     }
 }
 

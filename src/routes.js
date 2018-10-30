@@ -2,9 +2,9 @@ import React from 'react';
 import LoginForm from './components/LoginForm';
 import HomePage from './containers/HomePage'
 import RegisterForm from './components/RegisterForm';
-import Mail from './components/Email/Mail';
-import Compose from './components/Compose';
-//import Read from './components/Read';
+import Mail from './components/Mail';
+import Compose from './components/Compose/Compose';
+//import Read from './components/Read/Read'
 
 const routes = [
     {
@@ -42,9 +42,23 @@ const routes = [
     }, {
         path: '/mail/:id/read',
         exact: false,
-        main: ({ match, history }) => <div><Mail match={match} history={history} /></div>
+        main: () => <div><Mail /></div>
     }, {
         path: '/mail/trash',
+        exact: false,
+        main: () =>
+            <div>
+                <Mail />
+            </div>
+    }, {
+        path: '/mail/draft',
+        exact: false,
+        main: () =>
+            <div>
+                <Mail />
+            </div>
+    }, {
+        path: '/mail/sent',
         exact: false,
         main: () =>
             <div>

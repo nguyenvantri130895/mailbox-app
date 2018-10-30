@@ -45,7 +45,9 @@ class TreeFolders extends Component {
                             <li className="active"><Link to="/mail">
                                 <i className="fa fa-inbox mr-10"></i>
                                 Inbox
-                                <span className="label label-primary pull-right flip">{labelInbox ? labelInbox : ''}</span>
+                                <span className="label label-primary pull-right flip">
+                                    {labelInbox ? labelInbox : ''}
+                                </span>
                             </Link></li>
 
                             <li className="active"><Link to="/mail">
@@ -53,15 +55,20 @@ class TreeFolders extends Component {
                                 Starred inbox
                             </Link></li>
 
-                            <li className="active"><Link to="/mail">
+                            <li className="active"><Link to="/mail/sent">
                                 <i className="fa fa-envelope-open-text mr-10"></i>
                                 Sent
+                                <span className="label label-info pull-right flip">
+                                    {this.props.sent.length ? this.props.sent.length : ''}
+                                </span>
                             </Link></li>
 
                             <li className="active"><Link to="/mail/draft">
                                 <i className="fa fa-clipboard-list mr-10"></i>
                                 Drafts
-                                <span className="label label-warning pull-right flip">{this.props.drafts.length ? this.props.drafts.length : ''}</span>
+                                <span className="label label-warning pull-right flip">
+                                    {this.props.drafts.length ? this.props.drafts.length : ''}
+                                </span>
                             </Link></li>
 
                             <li className="active"><Link to="/mail">
@@ -72,7 +79,9 @@ class TreeFolders extends Component {
                             <li className="active"><Link to="/mail/trash">
                                 <i className="fa fa-trash mr-10"></i>
                                 Trash
-                                <span className="label label-danger pull-right flip">{labelTrash ? labelTrash : ''}</span>
+                                <span className="label label-danger pull-right flip">
+                                    {labelTrash ? labelTrash : ''}
+                                </span>
                             </Link></li>
 
                         </ul>
@@ -126,15 +135,13 @@ const mapStateToProps = (state) => {
     return {
         emails: state.emails,
         trash: state.trash,
-        drafts: state.drafts
+        drafts: state.drafts,
+        sent: state.sent
     }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        onShowListMail: () => {
-            dispatch(actions.showListEmail())
-        }
     }
 }
 

@@ -18,38 +18,30 @@ export const showListDraft = () => {
     }
 }
 
-export const getId = (id) => {
+export const showListSent = () => {
     return {
-        type: types.GET_ID,
+        type: types.SHOW_LIST_SENT
+    }
+}
+
+export const moveToTrash = (id) => {
+    return {
+        type: types.MOVE_TO_TRASH,
         id
     }
 }
 
-export const getIndex = (index) => {
-    return {
-        type: types.GET_INDEX,
-        index
-    }
-}
-
-export const moveToTrash = (index) => {
-    return {
-        type: types.MOVE_TO_TRASH,
-        index
-    }
-}
-
-export const moveToInbox = (index) => {
+export const moveToInbox = (id) => {
     return {
         type: types.MOVE_TO_INBOX,
-        index
+        id
     }
 }
 
-export const deletePermanently = (index) => {
+export const deletePermanently = (id) => {
     return {
         type: types.DELETE_PERMANENTLY,
-        index
+        id
     }
 }
 
@@ -67,27 +59,45 @@ export const searchEmail = (keyword) => {
     }
 }
 
-export const sendEmail = (sender, text, subject) => {
+export const sendEmail = (id, receiver, content, subject) => {
     return {
         type: types.SEND_EMAIL,
-        sender,
-        text,
-        subject
+        id,
+        receiver,
+        content,
+        subject,
     }
 }
 
-export const saveToDraft = (text, subject) => {
+export const receiveEmail = (composer, text, subject) => {
+    return {
+        type: types.RECEIVE_EMAIL,
+        composer,
+        text,
+        subject,
+    }
+}
+
+export const saveToDraft = (receiver, content, subject) => {
     return {
         type: types.SAVE_TO_DRAFT,
-        text,
-        subject
+        receiver,
+        content,
+        subject,
     }
 }
 
-export const deleteDraft = (index) => {
+export const deleteDraft = (id) => {
     return {
         type: types.DELETE_DRAFT,
-        index
+        id
+    }
+}
+
+export const deleteSent = (id) => {
+    return {
+        type: types.DELETE_SENT,
+        id
     }
 }
 
@@ -98,14 +108,43 @@ export const readInbox = (id) => {
     }
 }
 
-export const readTrash = () => {
+export const readTrash = (id) => {
     return {
         type: types.READ_TRASH,
+        id
     }
 }
 
-export const readDraft = () => {
+export const readSent = (id) => {
     return {
-        type: types.READ_DRAFT,
+        type: types.READ_SENT,
+        id
+    }
+}
+
+export const reply = (composer, subject) => {
+    return {
+        type: types.REPLY,
+        composer,
+        subject
+    }
+}
+
+export const forward = (composer, subject, content) => {
+    return {
+        type: types.FORWARD,
+        composer,
+        subject,
+        content
+    }
+}
+
+export const draft = (id, receiver, subject, content) => {
+    return {
+        type: types.DRAFT,
+        id,
+        receiver,
+        subject,
+        content
     }
 }

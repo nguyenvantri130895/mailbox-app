@@ -34,8 +34,8 @@ var findIndex = (emails, id) => {
 var reducer = (state = initialState, action) => {
     var id = '';
     var index = -1;
-    var substr = JSON.parse(localStorage.getItem('trash'))
-    if (substr == null) substr = [];
+    var trash = JSON.parse(localStorage.getItem('trash'))
+    if (trash == null) trash = [];
     var updateState = JSON.parse(localStorage.getItem('emails'))
     state = (state.length !== updateState.length)
         ? updateState
@@ -44,21 +44,21 @@ var reducer = (state = initialState, action) => {
         case types.SHOW_LIST_EMAIL:
             return state
         case types.MOVE_TO_TRASH:
-            index = action.index;
-            substr.push(state[index]);
-            localStorage.setItem('trash', JSON.stringify(substr));
+            id = action.id
+            index = findIndex(state, id);
+            trash.push(state[index]);
+            localStorage.setItem('trash', JSON.stringify(trash));
             state.splice(index, 1);
             localStorage.setItem('emails', JSON.stringify(state));
             return [...state]
-        case types.SEND_EMAIL:
+        case types.RECEIVE_EMAIL:
             var email = {
                 id: randomstring.generate(),
-                composer: action.sender,
+                composer: action.composer,
                 subject: action.subject,
                 time: Math.floor(Math.random() * 59 + 1),
                 content: action.text
             }
-            console.log(action.sender + action.text)
             state.push(email)
             localStorage.setItem('emails', JSON.stringify(state));
             return [...state]

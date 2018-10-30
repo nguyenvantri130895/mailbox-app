@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+//import './App.css';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory'
 import routes from './routes'
@@ -33,10 +33,14 @@ class App extends Component {
     return <Switch>{result}</Switch>;
   }
 
+  onLoad = () => {
+    console.log('abc')
+  }
+
   render() {
     return (
-      <Router history={history}>
-        <div>
+      <Router history={history} onLoadedDataCapture={this.onLoad}>
+        <div >
           <div className="container-fluid">
             <div className="row">
               {this.showContentRoutes(routes)}

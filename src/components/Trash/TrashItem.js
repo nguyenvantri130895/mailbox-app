@@ -11,18 +11,16 @@ class TrashItem extends Component {
         }
     }
 
-    onClick = () => {
-        this.props.onGetId(this.props.emailTrash.id);
-        this.props.onGetIndex(this.props.index);
-        console.log(this.props.index);
+    onRead = () => {
+        this.props.onRead(this.props.emailTrash.id);
     }
 
     onDelete = () => {
-        this.props.onDelete(this.props.index);
+        this.props.onDelete(this.props.emailTrash.id);
     }
 
     onReturn = () => {
-        this.props.onMoveToInbox(this.props.index);
+        this.props.onMoveToInbox(this.props.emailTrash.id);
     }
 
     render() {
@@ -39,7 +37,7 @@ class TrashItem extends Component {
                                 <Link
                                     to={`/mail/${emailTrash.id}/read`}
                                     style={{ color: '#000' }}
-                                    onClick={this.onClick}
+                                    onClick={this.onRead}
                                 >
                                     {emailTrash.subject} - {emailTrash.content}
                                 </Link>
@@ -79,17 +77,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        onGetId: (id) => {
-            dispatch(actions.getId(id))
+        onRead: (id) => {
+            dispatch(actions.readTrash(id))
         },
-        onGetIndex: (index) => {
-            dispatch(actions.getIndex(index))
+        onMoveToInbox: (id) => {
+            dispatch(actions.moveToInbox(id))
         },
-        onMoveToInbox: (index) => {
-            dispatch(actions.moveToInbox(index))
-        },
-        onDelete: (index) => {
-            dispatch(actions.deletePermanently(index))
+        onDelete: (id) => {
+            dispatch(actions.deletePermanently(id))
         }
     }
 }

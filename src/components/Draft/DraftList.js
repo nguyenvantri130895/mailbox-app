@@ -36,7 +36,7 @@ class DraftList extends Component {
                 <DraftItem
                     draft={draft}
                     key={draft.id}
-                    index={index + itemsCountPerPage * (activePage - 1)}
+                    index={index}
                 />
             )
         })
@@ -73,7 +73,7 @@ class DraftList extends Component {
                         </div>
                     </div>
                 </div>
-                : <h4 className="text-center">No email to display in trash</h4>
+                : <h4 className="text-center">No email to display in draft</h4>
             )
         }
 

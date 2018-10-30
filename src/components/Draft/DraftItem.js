@@ -11,13 +11,12 @@ class DraftItem extends Component {
         }
     }
 
-    onClick = () => {
-        this.props.onGetId(this.props.draft.id);
-        this.props.onGetIndex(this.props.index);
+    onDraftCompose = () => {
+        this.props.onDraftCompose(this.props.draft.id, this.props.draft.receiver, this.props.draft.subject, this.props.draft.content);
     }
 
     onDelete = () => {
-        this.props.onDelete(this.props.index);
+        this.props.onDelete(this.props.draft.id);
     }
 
     render() {
@@ -28,13 +27,13 @@ class DraftItem extends Component {
                     <tbody>
                         <tr>
                             <td className="mailbox-name col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                                {draft.composer}
+                                {draft.draft}
                             </td>
                             <td className="mailbox-subject col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                 <Link
-                                    to={`/mail/${draft.id}/read`}
+                                    to='/mail/compose'
                                     style={{ color: '#000' }}
-                                    onClick={this.onClick}
+                                    onClick={this.onDraftCompose}
                                 >
                                     {draft.subject} - {draft.content}
                                 </Link>
@@ -67,14 +66,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        onGetId: (id) => {
-            dispatch(actions.getId(id))
+        onDraftCompose: (id, receiver, subject, content) => {
+            dispatch(actions.draft(id, receiver, subject, content))
         },
-        onGetIndex: (index) => {
-            dispatch(actions.getIndex(index))
-        },
-        onDelete: (index) => {
-            dispatch(actions.deleteDraft(index))
+        onDelete: (id) => {
+            dispatch(actions.deleteDraft(id))
         }
     }
 }

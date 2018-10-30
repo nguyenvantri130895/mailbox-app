@@ -7,7 +7,7 @@ body{background:#ecf0f5;padding-top:50px;font-family:'Source Sans Pro', sans-ser
 .mailbox-box-header .mailbox-box-title{font-size:19px;color:#444;margin:0;font-weight:lighter;display:inline-block}
 .mailbox-box-header .mailbox-box-tools>.btn{margin-top:-3px;padding:2px 5px;color:#97a0b3}
 .mailbox-box-footer{padding:10px 15px}
-.mailbox-box-footer button:hover{background-color:blue;}
+.mailbox-box-footer button:hover{background-color:rgb(58, 164, 250);}
 .mailbox-box-primary{border-top:3px solid #3c8dbc}
 .mailbox .vertical-list{margin:0;padding:0}.mailbox .vertical-list>li{list-style:none;font-weight:lighter;border-bottom:1px solid #f4f4f4}
 .mailbox .vertical-list>li:hover{background:#f7f7f7}

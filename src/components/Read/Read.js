@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import '../MailBox.css'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import * as actions from '../../actions'
 
 class Read extends Component {
     constructor(props) {
@@ -12,64 +15,18 @@ class Read extends Component {
 
     }
 
+    onReply = () => {
+        this.props.onReply(this.props.readMessage.composer, this.props.readMessage.subject)
+    }
+
+    onForward = () => {
+        var { readMessage } = this.props;
+        console.log(readMessage.content)
+        this.props.onForward(readMessage.composer, readMessage.subject, readMessage.content)
+    }
+
     render() {
-        var { emails, trash, drafts, id, index, readMessage } = this.props;
-        // var mailToRead = JSON.parse(localStorage.getItem('readMessage')) ? JSON.parse(localStorage.getItem('readMessage')) : '';
-        console.log(readMessage)
-        // Check emailId to display emailContent (in inbox or trash)
-        // const mailContent = () => {
-        //     if (emails[index]) {
-        //         debugger
-        //         if (emails[index].id === id) {
-        //             console.log(emails[index].id)
-        //             return emails[index].content
-        //         }
-        //         else if (trash[index].id === id) {
-        //             return trash[index].content
-        //         }
-        //         else {
-        //             return drafts[index].content
-        //         }
-        //     }
-        //     else if (trash[index]) {
-        //         if (trash[index].id === id) {
-        //             return trash[index].content
-        //         }
-        //         else {
-        //             return drafts[index].content
-        //         }
-        //     }
-        //     else {
-        //         return drafts[index].content
-        //     }
-        // }
-
-        // const messageContent = mailContent();
-
-        // const mailComposer = () => {
-        //     if (messageContent === emails[index].content) {
-        //         return emails[index].composer
-        //     }
-        //     else if (messageContent === trash[index].content) {
-        //         return trash[index].composer
-        //     }
-        //     else {
-        //         return drafts[index].composer
-        //     }
-        // }
-
-        // const mailSubject = () => {
-        //     if (messageContent === emails[index].content) {
-        //         return emails[index].subject
-        //     }
-        //     else if (messageContent === trash[index].content) {
-        //         return trash[index].subject
-        //     }
-        //     else {
-        //         return drafts[index].subject
-        //     }
-        // }
-
+        var { readMessage } = this.props;
         var d = new Date();
         var date = d.getDate();
         var month = d.getMonth() + 1;
@@ -101,7 +58,13 @@ class Read extends Component {
                                     {readMessage.subject}
                                 </h3>
                                 <h4>
-                                    From: {readMessage.composer}
+                                    {!readMessage.composer                          // check if not composer
+                                        ? `To: ${readMessage.receiver}`           // read email in sent
+                                        : (readMessage.composer === 'Draft'       // if composer and composer = 'Draft'
+                                            ? readMessage.composer              // read email in draft
+                                            : `From: ${readMessage.composer}`   // read email in inbox
+                                        )
+                                    }
                                 </h4>
                             </div>
                             {/* <!-- Read Info --> */}
@@ -181,17 +144,30 @@ class Read extends Component {
 
                         <div className="mailbox-box-footer">
                             <div className="pull-right flip">
-                                <button className="btn btn-default" type="button">
-                                    Forward
+                                <Link to="/mail/compose">
+                                    <button
+                                        className="btn btn-default"
+                                        type="button"
+                                        onClick={this.onForward}
+                                    >
+                                        Forward
                                     <i className="far fa-hand-point-right ml-10">
-                                    </i>
-                                </button>
+                                        </i>
+                                    </button>
+                                </Link>
                             </div>
-                            <button className="btn btn-default" type="button">
-                                <i className="fa fa-reply mr-10">
-                                </i>
-                                Reply
+                            <Link to="/mail/compose">
+                                <button
+                                    className="btn btn-default"
+                                    type="button"
+                                    onClick={this.onReply}
+                                >
+                                    <i className="fa fa-reply mr-10">
+                                    </i>
+                                    Reply
 				            </button>
+                            </Link>
+
                         </div>
 
                     </div>
@@ -204,4 +180,20 @@ class Read extends Component {
     }
 }
 
-export default Read
+const mapStateToProps = (state) => {
+    return {
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onReply: (composer, subject) => {
+            dispatch(actions.reply(composer, subject))
+        },
+        onForward: (composer, subject, content) => {
+            dispatch(actions.forward(composer, subject, content))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Read);
